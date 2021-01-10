@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --primary: #FE5F1E;
+    --primary-hover: #b23301;
+    --secondary: #F8F8F8;
+    --pure: #fff;
+    --dark: #232323;
+    --gray: #ccc;
+    --smooth: all .3s ease-in-out;
+}
+nav ul li:last-child{
+    border-radius: 50%;
+    background-color: var(--primary);
+    cursor: pointer;
+}
+nav ul li a:hover{
+    transition: var(--smooth) ease-in-out;
+    color: var(--primary);
+}
+nav ul li:last-child:hover{
+    transition: var(--smooth) ease-in-out;
+    background: var(--primary-hover);
+}
+
+section.mainsec{
+    background: var(--secondary);
+}
+.pizzssize{
+    background: var(--secondary);
+}
+.add_to_cart{
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+.add_to_cart:hover{
+    transition: var(--smooth);
+    background: var(--primary);
+    border-color: var(--pure);
+    color: var(--pure);
+}
+.add_to_cart:focus{
+    outline: none;
+}
+.order_now_btn{
+    background: var(--primary);
+    color: var(--pure);
+}
+.order_now_btn:hover{
+    background: var(--primary-hover);
+    transition: var(--smooth);
+}
+section.cart{
+    background: var(--secondary);
+}
+section.cart .amount{
+    color: var(--primary);
+}
+section.cart .btn{
+    background: var(--primary);
+    color: var(--pure);
+}
+section.login{
+    background: var(--secondary);
+    min-height: calc(100vh - 90px);
+}
+section.register{
+    background: var(--secondary);
+    min-height: calc(100vh - 90px);
+}
+.btn-primary{
+    background: var(--primary);
+    color: var(--pure);
+}

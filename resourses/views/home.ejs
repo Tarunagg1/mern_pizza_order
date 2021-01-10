@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    hello
-</body>
-</html>
+    <section class="mainsec">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="mainsec_left w-1/2">
+                  <h6 class="text-lg"><em>Felling Hungry!!</em></h6>  
+                  <h1 class="text-6xl font-bold">Cant' Wait it!!</h1>
+                  <button class="order_now_btn py-1 mt-4 px-6 rounded-full flex items-center font-bold"">Order Now</button>
+            </div>
+            <div class="mainsec_right w-1/2">
+                <img src="/img/hero-pizza.png" alt="hero pizza" srcset="">
+            </div>    
+        </div>
+    </section>
+    <section class="menu container mx-auto py-8">
+        <h1 class="text-xl font-bold mb-8">All Pizzas</h1>
+        <div class="cardpizza grid grid-cols-4 col-gap-12 row-gap-16">
+            <% pizza.forEach(function(data){ %>
+                <div class="card">
+                    <img class="h-40 mb-4 mx-auto" src="/img/<%= data.image %>" alt="product img">
+                    <div class="text-center">
+                        <h2 class="mb-4 text-lg"><%= data.name %></h2>
+                        <span class="pizzssize py-1 px-4 rounded-full uppercase text-xs"><%= data.size %></span>
+                        <div class="pricec flex items-center justify-around mt-6">
+                            <span class="price font-bold text-lg"><%= data.price %></span>
+                            <button id="add_to_cart" data-pizza="<%= JSON.stringify(data) %>" class="add_to_cart py-1 px-6 rounded-full flex items-center font-bold">
+                                <span>+</span>
+                                <span class="ml-4">Add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+          <%  }) %>
+        </div>
+    </section>
