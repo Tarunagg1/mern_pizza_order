@@ -7,11 +7,14 @@ const mongoose = require('mongoose')
 const db = require('./app/config/db');
 const session = require('express-session') 
 const flash = require('express-flash');
+const passport = require('passport');
 const mongodbstore = require('connect-mongo')(session);
 const app = express();
 
 
 const con = mongoose.connection;
+
+
 
 //// session store
 const mongosestore = new mongodbstore({
@@ -31,10 +34,19 @@ app.use(session({
 
 app.use(flash());
 
+///// passport config
+const passportinit = require('./app/config/passport');
+passportinit(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+
 app.use((req,res,next)=>{
     res.locals.session = req.session
+    res.locals.user = req.user
     next()
 });
 
