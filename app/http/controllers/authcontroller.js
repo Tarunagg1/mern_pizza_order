@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 function authcontroller(){
+   const _getredirecturl = (req) => {
+        return req.user.role === 'admin' ? '/admin/orders' : '/customer/myorders';
+    };
     return{
         login(req,res){
             res.render('auth/login')
@@ -11,9 +14,7 @@ function authcontroller(){
             res.render('auth/register')    
         },
         postlogin(req, res, next) {
-            const { email, password }   = req.body
-            console.log('kiju');
-            
+            const { email, password }   = req.body            
            // Validate request 
             if(!email || !password) {
                 req.flash('error', 'All fields are required')
@@ -33,8 +34,7 @@ function authcontroller(){
                         req.flash('error', info.message ) 
                         return next(err)
                     }
-                    return res.redirect('/login')
-
+                    return res.redirect(_getredirecturl(req))
                 })
             })(req, res, next)
         },
