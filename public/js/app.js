@@ -1,7 +1,7 @@
+// import {loadStripe} from '@stripe/stripe-js'
 const addtocartel = document.querySelectorAll('.add_to_cart');
 const cartcounterel = document.getElementById('cartcounter');
 
-// import {initadmin} from './admin';
 
 function updateCart(pizza){
     fetch('update-cart',{method:'POST',body:pizza,headers:{"Content-type":"application/json; charset=UTF-8"}})
@@ -10,7 +10,7 @@ function updateCart(pizza){
         swal("Product added to cart!");
         cartcounterel.innerText = data.totalqty;       
     }).catch(err => {
-        console.log(err);
+        return   
     })
 
 }
@@ -30,6 +30,101 @@ if(alertmsg){
     }, 2000);
 }
 
+//////// stripe
+
+function placeoder(formobj){
+    
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/orders");
+
+        // xhr.responseType = 'json'
+        xhr.setRequestHeader('Content-Type','application/json')
+        // handle error
+        xhr.onerror = function () {
+            console.log(xhr.responseText);
+        };
+      
+        // listen for response which will give the link
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == XMLHttpRequest.DONE) {
+            console.log(xhr.responseText);
+            if(xhr.responseText.status){
+                    swal("Order Placed successfully!");
+            }else{
+                    swal(xhr.responseText.error);
+            }
+            window.location.href = 'http://localhost:3000/customer/myorders';
+          }
+        };    
+        xhr.send(JSON.stringify(formobj));
+}
+
+let style = {
+            base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+    }
+    },
+            invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+    }
+};
+
+
+const paymentType = document.getElementById('paymentType');
+let cardelement = null;
+var stripe = Stripe('pk_test_51I9WV7EpGX1180D7G5S9b3peaWknxobXf0UrQbnny6AySbmOAHUJooavYy73zNcqKSkuFJsaAIvPTbZ6you8FYcd0009qCmGHw');
+if(paymentType){
+    const makecard = ()=>{
+        const elements = stripe.elements();
+        cardelement = elements.create("card",{style,hidePostalCode:true})
+        cardelement.mount('#card-element');
+    }
+
+    paymentType.addEventListener('change',(e)=>{
+        let type = e.target.value;
+        if(type == "card"){
+            makecard()
+        }else{
+            cardelement.destroy();
+        }
+    })
+}
+
+
+///////////////////////
+const paymentform = document.getElementById('payment-form');
+if(paymentform){
+    paymentform.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let formdata = new FormData(paymentform);
+        let formobj = {};
+        for(let [key,val] of formdata.entries()){
+            formobj[key] = val;
+        }
+
+        // verify card
+        if(cardelement){
+            stripe.createToken(cardelement)
+            .then((res)=>{
+                formobj.stripetoken = res.token.id;
+                placeoder(formobj);
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }else{
+            placeoder(formobj);
+        }
+
+    })
+}
+
+//////// stripe
 
 ////////// admin
 //////////////////////////////////////////////////////////////////////////////
@@ -45,7 +140,7 @@ fetch('/admin/ferchorders')
     adminTaborderTableBody.innerHTML = markup
 })
 .catch(err => {
-    console.log(err);
+    return
 })
 
 function renderItems(items) {

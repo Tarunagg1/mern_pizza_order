@@ -161,3 +161,62 @@ section.register{
     font-size: 14px;
     margin-top: 3px;
 }
+
+@media(max-width:1060px){
+    .container{
+        width: 90%;
+    }  
+    table{
+        display: auto;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .status .status-box ul li span:before{
+        left: -80px;
+    }
+    .status .status-box ul li:before{
+        left: -20px;
+    } 
+    .status .status-box ul li span:after{
+        left: -25px;
+    }
+
+}
+@media(max-width:576px){
+    .status .status-box ul li span:before{
+        font-size: 36px;   
+    }
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+  box-sizing: border-box;
+  width:50%;
+  margin-left:auto;
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

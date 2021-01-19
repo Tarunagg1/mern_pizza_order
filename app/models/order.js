@@ -21,6 +21,11 @@ const orderSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    paymentStatus:{
+        type:Boolean,
+        default:false
+    }    
+    ,
     status:{
         type:String,
         default:'order_placed'

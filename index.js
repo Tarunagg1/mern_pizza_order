@@ -10,12 +10,15 @@ const flash = require('express-flash');
 const passport = require('passport');
 const mongodbstore = require('connect-mongo')(session);
 const Emitter = require('events')
+const cors = require('cors')
+const axios = require('axios')
 const app = express();
 
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 const con = mongoose.connection;
-
-
 
 //// session store
 const mongosestore = new mongodbstore({
@@ -47,8 +50,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const PORT = process.env.PORT || 3000;
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+
 
 app.use((req,res,next)=>{
     res.locals.session = req.session
@@ -72,8 +74,6 @@ const server = app.listen(PORT,()=>{
 //// socket
 const io = require('socket.io')(server)
 io.on('connection',(socket)=>{
-    // join
-    console.log(socket.id);
     socket.on('join',(orderid)=>{
         socket.join(orderid)
     })
